@@ -1,13 +1,17 @@
 import os
 from pathlib import Path
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'imranalam7860')
-DEBUG = False
+SECRET_KEY = os.environ.get('SECRET_KEY', 'imranalam@7860')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['hamrophysio.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'hamrophysio.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    '*'
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,7 +39,7 @@ ROOT_URLCONF = 'hamrophysio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'core' / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -51,15 +55,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hamrophysio.wsgi.application'
 
 # Database
-if os.environ.get('DATABASE_URL'):
-    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -69,25 +70,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Kathmandu'
+TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'admin_login'
-
-# Security for production
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    CSRF_TRUSTED_ORIGINS = ['https://hamrophysio.onrender.com']
