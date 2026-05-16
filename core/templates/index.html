@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Golden Banner -->
+<div class="gold-bg text-[#2A2410] py-2.5 text-center sticky top-0 z-50 shadow-sm">
+    <p class="text-sm md:text-base font-semibold tracking-wide flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[#2A2410] text-base">local_offer</span>
+        ✨ Online booking discount: ₨200 OFF – Save instantly! ✨
+    </p>
+</div>
+
+<!-- Header -->
+<header class="sticky top-[42px] md:top-[46px] z-40 bg-[#FDFBF8]/95 backdrop-blur-md border-b border-[#DCD7CD]">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+            <img src="{% static 'images/logo.png' %}" alt="HamroPhysio" class="h-12 w-auto">
+            <span class="serif text-2xl md:text-3xl font-bold text-[#1E3A2F]">HamroPhysio</span>
+        </a>
+        <nav class="hidden md:flex gap-8">
+            <a href="/#home" class="text-[#4A5B4E] hover:text-[#1E3A2F] font-medium">Home</a>
+            <a href="/#about" class="text-[#4A5B4E] hover:text-[#1E3A2F] font-medium">About</a>
+            <a href="/#services" class="text-[#4A5B4E] hover:text-[#1E3A2F] font-medium">Services</a>
+            <a href="/#pricing" class="text-[#4A5B4E] hover:text-[#1E3A2F] font-medium">Pricing</a>
+            <a href="/book/" class="bg-[#1E3A2F] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-[#2B5A44] transition">Book Now</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section id="home" class="py-12 md:py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="inline-block bg-[#EADDA8]/30 rounded-full px-4 py-1.5 text-[#3E5A48] text-sm font-medium">🇳🇵 Licensed Physiotherapist | Birgunj & Bara</div>
+                <h1 class="serif text-4xl md:text-5xl lg:text-6xl font-bold text-[#1E3A2F]">Dr. Imran Alam</h1>
+                <p class="text-xl md:text-2xl serif font-semibold text-[#C68E17]">Expert Physiotherapy Care, Delivered to Your Door</p>
+                <p class="text-[#3F5548] text-base md:text-lg max-w-lg">Evidence-based rehabilitation at your home or clinic. Serving Birgunj and Bara district — compassionate care you can trust.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="/book/" class="bg-[#1E3A2F] text-white px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 shadow-md hover:bg-[#2F5A46] transition">📅 Book Appointment</a>
+                    <a href="https://wa.me/9779769785094" target="_blank" class="border-2 border-[#1E3A2F] text-[#1E3A2F] px-8 py-3.5 rounded-full font-semibold flex items-center gap-2 hover:bg-[#1E3A2F]/5 transition">💬 WhatsApp</a>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <div class="bg-white/50 backdrop-blur-sm p-3 rounded-3xl shadow-2xl">
+                    <img src="{% static 'images/heroimg.png' %}" alt="Physiotherapy" class="rounded-2xl w-full max-w-sm object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Personal Image -->
+    <section id="about" class="py-20 bg-white/50">
+        <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12 grid md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+                <img src="{% static 'images/myimg.png' %}" alt="Dr. Imran Alam" class="rounded-3xl shadow-xl w-full max-w-md mx-auto border-4 border-[#F0EDE4]">
+            </div>
+            <div class="order-1 md:order-2 space-y-5">
+                <span class="text-[#C68E17] font-semibold tracking-wider text-sm uppercase">Meet Your Physiotherapist</span>
+                <h2 class="serif text-3xl md:text-4xl font-bold text-[#1E3A2F]">Dr. Imran Alam</h2>
+                <p class="text-[#2A3A30] leading-relaxed">
+                    Dr. Imran Alam is a licensed physiotherapist who completed his Bachelor of Physiotherapy (BPT) degree from NIMS University, Jaipur. With extensive clinical experience, he specializes in manual therapy, orthopaedic rehabilitation, sports injury management, and geriatric care.
+                </p>
+                <p class="text-[#2A3A30] leading-relaxed">
+                    His patient-first approach combines modern evidence-based techniques with compassionate care, ensuring effective recovery for every patient. Dr. Alam is dedicated to providing high-quality physiotherapy services across Birgunj and Bara district, either at his clinic or through convenient home visits.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-[#EFF3EA] px-4 py-1.5 rounded-full text-sm">🎓 BPT - NIMS University, Jaipur</span>
+                    <span class="bg-[#EFF3EA] px-4 py-1.5 rounded-full text-sm">📜 NHPC Registered</span>
+                    <span class="bg-[#EFF3EA] px-4 py-1.5 rounded-full text-sm">🧠 Orthopaedic Manual Therapy</span>
+                    <span class="bg-[#EFF3EA] px-4 py-1.5 rounded-full text-sm">🏥 Sports Injury Specialist</span>
+                    <span class="bg-[#EFF3EA] px-4 py-1.5 rounded-full text-sm">⭐ 1000+ Successful Treatments</span>
+                </div>
+                <div class="pt-4 space-y-2">
+                    <div class="flex items-center gap-3 text-[#4A5B4E]">
+                        <span class="material-symbols-outlined text-[#C68E17]">phone</span>
+                        <span>+977 976-9785094</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-[#4A5B4E]">
+                        <span class="material-symbols-outlined text-[#C68E17]">mail</span>
+                        <span>hamrophysio123@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-[#F8F6F0]">
+        <div class="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
+            <div class="text-center mb-14">
+                <h2 class="serif text-3xl md:text-4xl font-bold text-[#1E3A2F]">Conditions We Treat</h2>
+                <div class="w-24 h-0.5 bg-[#D4AF37] mx-auto mt-4"></div>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">🏋️</span><h3 class="text-xl font-bold mt-4">Orthopaedic Rehab</h3><p class="text-[#4C5F53]">Joint pain, arthritis, back pain, fractures, postural correction.</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">🧠</span><h3 class="text-xl font-bold mt-4">Neurological Rehab</h3><p class="text-[#4C5F53]">Stroke, Parkinson's, spinal cord injury, nerve conditioning.</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">⚽</span><h3 class="text-xl font-bold mt-4">Sports Injuries</h3><p class="text-[#4C5F53]">Ligament sprains, muscle tears, tennis elbow, return-to-sport plans.</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">❤️</span><h3 class="text-xl font-bold mt-4">Post-Surgery Recovery</h3><p class="text-[#4C5F53]">Post-ACL, joint replacement, spine surgery rehab protocols.</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">🏠</span><h3 class="text-xl font-bold mt-4">Home Visits</h3><p class="text-[#4C5F53]">Convenient 1:1 sessions at your home across Birgunj & Bara.</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition"><span class="text-4xl">👴</span><h3 class="text-xl font-bold mt-4">Geriatric Care</h3><p class="text-[#4C5F53]">Fall prevention, mobility training, chronic pain management.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-5 md:px-8">
+            <div class="text-center mb-12">
+                <h2 class="serif text-3xl md:text-4xl font-bold text-[#1E3A2F]">Simple Pricing</h2>
+                <p class="text-[#4F6A5C]">Per session (1 hour) – No hidden charges | Cash on Delivery Only</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-[#FCFAF6] rounded-3xl p-8 text-center hover:shadow-xl transition">
+                    <p class="text-sm uppercase tracking-wider text-[#7F6B3E]">Standard Visit</p>
+                    <div class="mt-4"><span class="text-5xl font-bold">₨ 1,800</span><span class="text-[#5A7262]"> /hour</span></div>
+                    <ul class="mt-6 space-y-2 text-left">
+                        <li>✓ 60-min one-on-one session</li>
+                        <li>✓ Complete assessment & plan</li>
+                        <li>✓ Home visit available</li>
+                        <li>✓ Pay at visit (COD)</li>
+                    </ul>
+                    <a href="/book/" class="mt-8 inline-block w-full py-3 border-2 border-[#1E3A2F] rounded-full font-semibold hover:bg-[#1E3A2F]/5 transition">Book Regular Visit</a>
+                </div>
+                <div class="bg-[#1E3A2F] rounded-3xl p-8 text-white relative overflow-hidden hover:shadow-xl transition">
+                    <div class="absolute top-5 right-[-28px] bg-[#D4AF37] text-[#1E2A1C] px-10 py-1 rotate-45 text-sm font-bold">Save ₨200</div>
+                    <p class="text-sm uppercase">Online Booking Exclusive</p>
+                    <div class="mt-4"><span class="text-3xl line-through">₨ 1,800</span> <span class="text-5xl font-bold">₨ 1,600</span><span> /hour</span></div>
+                    <p class="text-sm mt-2">Pay at your doorstep (COD)</p>
+                    <a href="/book/" class="mt-8 inline-block w-full py-3 bg-[#D4AF37] text-[#1E3A2F] rounded-full font-bold text-center hover:bg-[#E5C758] transition">Claim ₨200 OFF → Book Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - Updated without Facebook -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-5 md:px-8">
+            <div class="text-center mb-10">
+                <h2 class="serif text-3xl font-bold text-[#1E3A2F]">Get In Touch</h2>
+                <div class="w-24 h-0.5 bg-[#D4AF37] mx-auto mt-3"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="https://wa.me/9779769785094" target="_blank" class="bg-[#F7F5EF] p-8 rounded-2xl text-center hover:shadow-lg transition group">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                        <span class="text-3xl">💬</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#1E3A2F] mb-2">WhatsApp</h3>
+                    <p class="text-gray-600 text-sm">+977 976-9785094</p>
+                    <p class="text-xs text-gray-400 mt-2">Click to chat</p>
+                </a>
+                
+                <a href="tel:+9779769785094" class="bg-[#F7F5EF] p-8 rounded-2xl text-center hover:shadow-lg transition group">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                        <span class="text-3xl">📞</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#1E3A2F] mb-2">Call Now</h3>
+                    <p class="text-gray-600 text-sm">+977 976-9785094</p>
+                    <p class="text-xs text-gray-400 mt-2">Direct call</p>
+                </a>
+                
+                <a href="mailto:hamrophysio123@gmail.com" class="bg-[#F7F5EF] p-8 rounded-2xl text-center hover:shadow-lg transition group">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                        <span class="text-3xl">✉️</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-[#1E3A2F] mb-2">Email</h3>
+                    <p class="text-gray-600 text-sm">hamrophysio123@gmail.com</p>
+                    <p class="text-xs text-gray-400 mt-2">Send us an email</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hospital Referral -->
+    <!-- Hospital Referral Section -->
+<section class="py-16 bg-[#EFF1E9]">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 text-center md:flex md:justify-between md:text-left items-center gap-8">
+        <div>
+            <h3 class="serif text-2xl font-bold text-[#1E3A2F]">Clinic & Hospital Partnerships</h3>
+            <p class="text-[#4D6758] mt-2">Collaborate for post-operative rehab and patient referrals.</p>
+        </div>
+        <a href="{% url 'partnership_request' %}" class="mt-4 md:mt-0 bg-[#1E3A2F] text-white px-8 py-3 rounded-full inline-block hover:bg-[#2B5A44] transition">
+            🤝 Invite for Partnership
+        </a>
+    </div>
+</section>
+</main>
+
+<footer class="bg-[#1A2D24] text-white py-10">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 text-center">
+        <div class="flex justify-center mb-4">
+            <img src="{% static 'images/logo.png' %}" alt="HamroPhysio" class="h-12 w-auto">
+        </div>
+        <p class="text-sm opacity-80">© 2025 HamroPhysio — Compassionate physiotherapy in Birgunj & Bara, Nepal.</p>
+        <p class="text-xs opacity-60 mt-2">Dr. Imran Alam | BPT from NIMS University, Jaipur</p>
+        <div class="flex justify-center gap-6 mt-4">
+            <a href="tel:+9779769785094" class="text-sm opacity-75 hover:opacity-100">📞 +977 976-9785094</a>
+            <a href="mailto:hamrophysio123@gmail.com" class="text-sm opacity-75 hover:opacity-100">✉️ hamrophysio123@gmail.com</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/9779769785094" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl wa-float hover:scale-110 transition">
+    💬
+</a>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Earnings Report - HamroPhysio{% endblock %}
+
+{% block header %}Earnings Report{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Total Received</p>
+            <p class="text-3xl font-bold">₨ {{ total_received|floatformat:0 }}</p>
+            <p class="text-xs opacity-75 mt-2">Collected payments</p>
+        </div>
+        
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Pending Collection</p>
+            <p class="text-3xl font-bold">₨ {{ total_pending|floatformat:0 }}</p>
+            <p class="text-xs opacity-75 mt-2">Awaiting COD payment</p>
+        </div>
+        
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Total Transactions</p>
+            <p class="text-3xl font-bold">{{ total_bookings }}</p>
+            <p class="text-xs opacity-75 mt-2">Completed bookings</p>
+        </div>
+    </div>
+    
+    <!-- Filter -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+        <form method="GET" class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-sm font-semibold mb-1">Date From</label>
+                <input type="date" name="date_from" value="{{ date_from }}" class="p-2 border rounded-lg">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-1">Date To</label>
+                <input type="date" name="date_to" value="{{ date_to }}" class="p-2 border rounded-lg">
+            </div>
+            <button type="submit" class="bg-[#1E3A2F] text-white px-6 py-2 rounded-lg">Filter</button>
+            <a href="{% url 'admin_earnings' %}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg">Reset</a>
+        </form>
+    </div>
+    
+    <!-- Earnings Table -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Booking ID</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Patient</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Service</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Date</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Amount</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Discount</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Payment Status</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Payment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for earning in earnings %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 text-sm font-mono">{{ earning.booking.booking_id }}</td>
+                        <td class="p-4 text-sm">{{ earning.booking.patient.name }}</td>
+                        <td class="p-4 text-sm">{{ earning.booking.get_service_display|truncatechars:20 }}</td>
+                        <td class="p-4 text-sm">{{ earning.booking.preferred_date }}</td>
+                        <td class="p-4 text-sm font-semibold text-green-600">₨ {{ earning.amount }}</td>
+                        <td class="p-4 text-sm">₨ {{ earning.booking.discount_applied }}</td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                {% if earning.payment_status == 'received' %}bg-green-100 text-green-800
+                                {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ earning.get_payment_status_display }}
+                            </span>
+                        </td>
+                        <td class="p-4 text-sm">{{ earning.payment_date|default:"-" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center p-8 text-gray-500">No earnings records found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book Appointment - HamroPhysio{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F5F3EF] py-12">
+    <div class="max-w-4xl mx-auto px-5">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+            <div class="bg-gradient-to-r from-[#1E3A2F] to-[#2B5A44] p-8 text-white text-center">
+                <h1 class="serif text-3xl md:text-4xl font-bold">Book Your Appointment</h1>
+                <p class="mt-2">Online booking gets ₨200 discount | Pay at your doorstep (COD)</p>
+                <p class="text-sm mt-2 opacity-90">📞 For quick booking, call: +977 976-9785094</p>
+            </div>
+            
+            <div class="p-8 md:p-12">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#C68E17]">person</span>
+                            Patient Information
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Full Name *</label>
+                                {{ patient_form.name }}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Phone Number *</label>
+                                {{ patient_form.phone }}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Email (Optional)</label>
+                                {{ patient_form.email }}
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-2">Address *</label>
+                                {{ patient_form.address }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#C68E17]">calendar_today</span>
+                            Appointment Details
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Service Type *</label>
+                                {{ booking_form.service }}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Preferred Date *</label>
+                                {{ booking_form.preferred_date }}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Preferred Time *</label>
+                                {{ booking_form.preferred_time }}
+                                <p class="text-xs text-gray-500 mt-1">Select from available time slots</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-2">Service Address</label>
+                                {{ booking_form.address }}
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-2">Additional Notes</label>
+                                {{ booking_form.notes }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Available Time Slots Info -->
+                    <div class="bg-blue-50 p-4 rounded-xl mb-6">
+                        <h3 class="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined">schedule</span>
+                            Available Time Slots
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                            <div class="text-gray-600">🕐 09:00 - 10:00 AM</div>
+                            <div class="text-gray-600">🕐 10:00 - 11:00 AM</div>
+                            <div class="text-gray-600">🕐 11:00 AM - 12:00 PM</div>
+                            <div class="text-gray-600">🕐 12:00 - 01:00 PM</div>
+                            <div class="text-gray-600">🕐 02:00 - 03:00 PM</div>
+                            <div class="text-gray-600">🕐 03:00 - 04:00 PM</div>
+                            <div class="text-gray-600">🕐 04:00 - 05:00 PM</div>
+                            <div class="text-gray-600">🕐 05:00 - 06:00 PM</div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">* Lunch break: 01:00 PM - 02:00 PM</p>
+                    </div>
+                    
+                    <div class="bg-[#F0F4F0] p-6 rounded-xl mb-6">
+                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#C68E17]">payments</span>
+                            Payment Summary
+                        </h3>
+                        <div class="flex justify-between py-2">
+                            <span>Regular Price:</span>
+                            <span>₨ 1,800</span>
+                        </div>
+                        <div class="flex justify-between py-2 text-green-600">
+                            <span>Online Booking Discount:</span>
+                            <span>- ₨ 200</span>
+                        </div>
+                        <div class="flex justify-between py-2 font-bold text-lg border-t mt-2 pt-2">
+                            <span>Total to Pay (COD):</span>
+                            <span class="text-[#C68E17]">₨ 1,600</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-3">✓ Pay when we visit your home/clinic</p>
+                        <p class="text-xs text-gray-500 mt-2">For any questions, contact: +977 976-9785094</p>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#D4AF37] text-[#1E3A2F] font-bold py-4 rounded-xl text-lg hover:bg-[#E5C758] transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        Confirm Booking (Pay at Visit)
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

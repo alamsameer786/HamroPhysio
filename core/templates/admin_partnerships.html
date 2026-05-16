@@ -1,0 +1,177 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Partnership Requests - HamroPhysio{% endblock %}
+
+{% block header %}Partnership Requests{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Total Requests</p>
+            <p class="text-3xl font-bold">{{ total_requests }}</p>
+        </div>
+        
+        <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Pending Review</p>
+            <p class="text-3xl font-bold">{{ pending_requests }}</p>
+        </div>
+        
+        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Partnered</p>
+            <p class="text-3xl font-bold">{{ partnered_requests }}</p>
+        </div>
+    </div>
+    
+    <!-- Filter Bar -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+        <form method="GET" class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-sm font-semibold mb-1">Filter by Status</label>
+                <select name="status" class="p-2 border rounded-lg">
+                    <option value="">All</option>
+                    <option value="pending" {% if current_status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="contacted" {% if current_status == 'contacted' %}selected{% endif %}>Contacted</option>
+                    <option value="in_discussion" {% if current_status == 'in_discussion' %}selected{% endif %}>In Discussion</option>
+                    <option value="partnered" {% if current_status == 'partnered' %}selected{% endif %}>Partnered</option>
+                    <option value="declined" {% if current_status == 'declined' %}selected{% endif %}>Declined</option>
+                </select>
+            </div>
+            <button type="submit" class="bg-[#1E3A2F] text-white px-6 py-2 rounded-lg">Filter</button>
+            <a href="{% url 'admin_partnerships' %}" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg">Reset</a>
+        </form>
+    </div>
+    
+    <!-- Partnerships Table -->
+    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Request ID</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Organization</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Type</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Contact</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Phone</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Date</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Status</th>
+                        <th class="text-left p-4 text-sm font-semibold text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partnership in partnerships %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4 text-sm font-mono">{{ partnership.request_id }}</td>
+                        <td class="p-4 text-sm font-semibold">{{ partnership.organization_name }}</td>
+                        <td class="p-4 text-sm">{{ partnership.get_partnership_type_display }}</td>
+                        <td class="p-4 text-sm">{{ partnership.contact_person }}<br><small class="text-gray-500">{{ partnership.email }}</small></td>
+                        <td class="p-4 text-sm">{{ partnership.phone }}</td>
+                        <td class="p-4 text-sm">{{ partnership.created_at|date:"Y-m-d" }}</td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                {% if partnership.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                {% elif partnership.status == 'contacted' %}bg-blue-100 text-blue-800
+                                {% elif partnership.status == 'in_discussion' %}bg-purple-100 text-purple-800
+                                {% elif partnership.status == 'partnered' %}bg-green-100 text-green-800
+                                {% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ partnership.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <button onclick="openModal({{ partnership.id }})" class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-600 transition">
+                                View & Update
+                            </button>
+                        </td>
+                    </tr>
+                    
+                    <!-- Hidden Modal Content for each partnership -->
+                    <div id="modal-{{ partnership.id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4" onclick="closeModal({{ partnership.id }})">
+                        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold text-[#1E3A2F]">Partnership Details</h3>
+                                    <button onclick="closeModal({{ partnership.id }})" class="text-gray-500 hover:text-gray-700">✕</button>
+                                </div>
+                                
+                                <div class="space-y-4 mb-6">
+                                    <div><label class="font-semibold">Request ID:</label> <span class="font-mono">{{ partnership.request_id }}</span></div>
+                                    <div><label class="font-semibold">Organization:</label> {{ partnership.organization_name }}</div>
+                                    <div><label class="font-semibold">Type:</label> {{ partnership.get_partnership_type_display }}</div>
+                                    <div><label class="font-semibold">Contact Person:</label> {{ partnership.contact_person }}</div>
+                                    <div><label class="font-semibold">Email:</label> {{ partnership.email }}</div>
+                                    <div><label class="font-semibold">Phone:</label> {{ partnership.phone }}</div>
+                                    <div><label class="font-semibold">Address:</label> {{ partnership.address }}</div>
+                                    <div><label class="font-semibold">Message:</label> <p class="mt-1 bg-gray-50 p-3 rounded">{{ partnership.message }}</p></div>
+                                    <div><label class="font-semibold">Submitted:</label> {{ partnership.created_at|date:"Y-m-d H:i" }}</div>
+                                </div>
+                                
+                                <form method="POST" class="border-t pt-4">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="request_id" value="{{ partnership.id }}">
+                                    <input type="hidden" name="action" value="update_status">
+                                    
+                                    <div class="mb-4">
+                                        <label class="block font-semibold mb-2">Update Status</label>
+                                        <select name="status" class="w-full p-2 border rounded-lg">
+                                            <option value="pending" {% if partnership.status == 'pending' %}selected{% endif %}>Pending</option>
+                                            <option value="contacted" {% if partnership.status == 'contacted' %}selected{% endif %}>Contacted</option>
+                                            <option value="in_discussion" {% if partnership.status == 'in_discussion' %}selected{% endif %}>In Discussion</option>
+                                            <option value="partnered" {% if partnership.status == 'partnered' %}selected{% endif %}>Partnered</option>
+                                            <option value="declined" {% if partnership.status == 'declined' %}selected{% endif %}>Declined</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="block font-semibold mb-2">Internal Notes</label>
+                                        <textarea name="notes" rows="3" class="w-full p-2 border rounded-lg" placeholder="Add notes about this partnership...">{{ partnership.notes }}</textarea>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        <button type="submit" class="flex-1 bg-[#1E3A2F] text-white py-2 rounded-lg hover:bg-[#2B5A44] transition">Update</button>
+                                        <button type="button" onclick="deleteRequest({{ partnership.id }})" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Delete</button>
+                                    </div>
+                                </form>
+                                
+                                <form id="delete-form-{{ partnership.id }}" method="POST" class="hidden">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="request_id" value="{{ partnership.id }}">
+                                    <input type="hidden" name="action" value="delete">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center p-8 text-gray-500">No partnership requests found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(id) {
+    document.getElementById(`modal-${id}`).classList.remove('hidden');
+}
+
+function closeModal(id) {
+    document.getElementById(`modal-${id}`).classList.add('hidden');
+}
+
+function deleteRequest(id) {
+    if (confirm('Are you sure you want to delete this partnership request?')) {
+        document.getElementById(`delete-form-${id}`).submit();
+    }
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('fixed')) {
+        event.target.classList.add('hidden');
+    }
+}
+</script>
+{% endblock %}

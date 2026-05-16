@@ -1,0 +1,166 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard - HamroPhysio{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-[#1E3A2F]">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total Bookings</p>
+                    <p class="text-3xl font-bold text-[#1E3A2F]">{{ total_bookings }}</p>
+                </div>
+                <div class="w-12 h-12 bg-[#1E3A2F]/10 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">📅</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-yellow-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Pending Bookings</p>
+                    <p class="text-3xl font-bold text-yellow-600">{{ pending_bookings }}</p>
+                </div>
+                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">⏳</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Completed</p>
+                    <p class="text-3xl font-bold text-green-600">{{ completed_bookings }}</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">✅</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-[#C68E17]">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total Earnings</p>
+                    <p class="text-3xl font-bold text-[#C68E17]">₨ {{ total_earnings|floatformat:0 }}</p>
+                </div>
+                <div class="w-12 h-12 bg-[#C68E17]/10 rounded-full flex items-center justify-center">
+                    <span class="text-2xl">💰</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Second Row Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-[#1E3A2F] to-[#2B5A44] rounded-2xl shadow-sm p-6 text-white">
+            <p class="text-sm opacity-90">Expected Revenue</p>
+            <p class="text-3xl font-bold">₨ {{ total_expected|floatformat:0 }}</p>
+            <p class="text-xs opacity-75 mt-2">From all bookings</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <p class="text-gray-500 text-sm">Pending Payments</p>
+            <p class="text-3xl font-bold text-orange-600">₨ {{ pending_earnings|floatformat:0 }}</p>
+            <p class="text-xs text-gray-400 mt-2">Awaiting COD collection</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <p class="text-gray-500 text-sm">This Month's Earnings</p>
+            <p class="text-3xl font-bold text-green-600">₨ {{ monthly_earnings|floatformat:0 }}</p>
+            <p class="text-xs text-gray-400 mt-2">Last 30 days</p>
+        </div>
+    </div>
+    
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Service Distribution -->
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4">Service Distribution</h3>
+            <div class="space-y-3">
+                {% for service in service_stats %}
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>{{ service.service|title }}</span>
+                        <span>{{ service.count }} bookings (₨ {{ service.total|floatformat:0 }})</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-[#C68E17] h-2 rounded-full" style="width: {% widthratio service.count total_bookings 100 %}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Weekly Activity -->
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4">Last 7 Days Activity</h3>
+            <div class="space-y-3">
+                {% for day in daily_stats %}
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>{{ day.date|date:"l, M d" }}</span>
+                        <span>{{ day.count }} bookings</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-[#1E3A2F] h-2 rounded-full" style="width: {% widthratio day.count 20 100 %}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Bookings Table -->
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-[#1E3A2F]">Recent Bookings</h3>
+            <a href="{% url 'admin_bookings' %}" class="text-[#C68E17] hover:underline text-sm">View All →</a>
+        </div>
+        <div class="overflow-x-auto">
+<!-- Update the recent bookings table to show time -->
+
+<table class="w-full">
+    <thead class="border-b">
+        <tr>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">ID</th>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">Patient</th>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">Service</th>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">Date & Time</th>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">Amount</th>
+            <th class="text-left p-3 text-sm font-semibold text-gray-600">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in recent_bookings %}
+        <tr class="border-b hover:bg-gray-50">
+            <td class="p-3 text-sm">{{ booking.booking_id }}</td>
+            <td class="p-3 text-sm">{{ booking.patient.name }}</td>
+            <td class="p-3 text-sm">{{ booking.get_service_display|truncatechars:20 }}</td>
+            <td class="p-3 text-sm">
+                {{ booking.preferred_date|date:"M d, Y" }}<br>
+                <span class="text-xs text-gray-500">{{ booking.preferred_time|default:"-" }}</span>
+            </td>
+            <td class="p-3 text-sm font-semibold">₨ {{ booking.final_amount }}</td>
+            <td class="p-3">
+                <span class="px-2 py-1 rounded-full text-xs font-semibold
+                    {% if booking.status == 'pending' %}bg-yellow-100 text-yellow-800
+                    {% elif booking.status == 'confirmed' %}bg-blue-100 text-blue-800
+                    {% elif booking.status == 'completed' %}bg-green-100 text-green-800
+                    {% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ booking.get_status_display }}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        </div>
+    </div>
+</div>
+{% endblock %}

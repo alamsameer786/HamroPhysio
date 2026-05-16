@@ -1,0 +1,123 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Settings - HamroPhysio{% endblock %}
+
+{% block header %}Admin Settings{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Change Password -->
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined">lock</span> Change Password
+            </h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-2">New Password</label>
+                    <input type="password" name="new_password" id="new_password" class="w-full p-3 border rounded-xl" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-2">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="w-full p-3 border rounded-xl" required>
+                </div>
+                <button type="submit" class="bg-[#1E3A2F] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#2B5A44] transition">Update Password</button>
+            </form>
+        </div>
+        
+        <!-- Admin Stats -->
+        <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined">info</span> Admin Information
+            </h3>
+            <div class="space-y-3">
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-600">Username:</span>
+                    <span class="font-semibold">{{ request.user.username }}</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-600">Email:</span>
+                    <span class="font-semibold">{{ request.user.email|default:"Not set" }}</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-600">Last Login:</span>
+                    <span class="font-semibold">{{ request.user.last_login|date:"Y-m-d H:i" }}</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-600">Staff Status:</span>
+                    <span class="font-semibold text-green-600">✓ Yes</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Activity Logs -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 lg:col-span-2">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined">history</span> Recent Admin Activity
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="border-b">
+                        <tr>
+                            <th class="text-left p-3 text-sm font-semibold text-gray-600">Admin</th>
+                            <th class="text-left p-3 text-sm font-semibold text-gray-600">Action</th>
+                            <th class="text-left p-3 text-sm font-semibold text-gray-600">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr class="border-b">
+                            <td class="p-3 text-sm">{{ log.admin.username|default:"System" }}</td>
+                            <td class="p-3 text-sm">{{ log.action }}</td>
+                            <td class="p-3 text-sm">{{ log.timestamp|date:"Y-m-d H:i:s" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center p-6 text-gray-500">No activity logs yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 lg:col-span-2">
+            <h3 class="text-lg font-bold text-[#1E3A2F] mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined">bolt</span> Quick Actions
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="{% url 'admin_bookings' %}?status=pending" class="bg-yellow-50 p-4 rounded-xl text-center hover:bg-yellow-100 transition">
+                    <span class="text-2xl block">⏳</span>
+                    <span class="text-sm font-semibold">View Pending</span>
+                </a>
+                <a href="{% url 'admin_earnings' %}" class="bg-green-50 p-4 rounded-xl text-center hover:bg-green-100 transition">
+                    <span class="text-2xl block">💰</span>
+                    <span class="text-sm font-semibold">Earnings Report</span>
+                </a>
+                <a href="{% url 'admin_patients' %}" class="bg-blue-50 p-4 rounded-xl text-center hover:bg-blue-100 transition">
+                    <span class="text-2xl block">👥</span>
+                    <span class="text-sm font-semibold">All Patients</span>
+                </a>
+                <a href="/" target="_blank" class="bg-purple-50 p-4 rounded-xl text-center hover:bg-purple-100 transition">
+                    <span class="text-2xl block">🌐</span>
+                    <span class="text-sm font-semibold">View Website</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Password confirmation validation
+    document.querySelector('form[method="POST"]')?.addEventListener('submit', function(e) {
+        const newPass = document.getElementById('new_password');
+        const confirmPass = document.getElementById('confirm_password');
+        if (newPass && confirmPass && newPass.value !== confirmPass.value) {
+            e.preventDefault();
+            alert('Passwords do not match!');
+        }
+    });
+</script>
+{% endblock %}

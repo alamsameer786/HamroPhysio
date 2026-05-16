@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F5F3EF] flex items-center justify-center py-12">
+    <div class="max-w-2xl mx-auto px-5">
+        <div class="bg-white rounded-3xl shadow-xl p-8 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-5xl">✅</span>
+            </div>
+            <h1 class="serif text-3xl font-bold text-[#1E3A2F] mb-4">Booking Confirmed!</h1>
+            <p class="text-gray-600 mb-6">Your appointment has been successfully booked with Dr. Imran Alam.</p>
+            
+            <!-- Update the success page to show selected time -->
+
+<div class="bg-[#F0F4F0] p-6 rounded-xl mb-6 text-left">
+    <p class="font-semibold mb-2">Booking ID: <span class="text-[#C68E17]">{{ booking.booking_id }}</span></p>
+    <p>Patient: {{ booking.patient.name }}</p>
+    <p>Service: {{ booking.get_service_display }}</p>
+    <p>Date: {{ booking.preferred_date|date:"l, F d, Y" }}</p>
+    <p>Time: <span class="font-semibold">{{ booking.preferred_time|default:"To be confirmed" }}</span></p>
+    <p>Amount to Pay: <span class="font-bold text-[#C68E17]">₨ {{ booking.final_amount }}</span> (Cash on Delivery)</p>
+</div>
+            
+            <p class="text-gray-600 mb-6">Dr. Imran Alam will contact you within 2 hours to confirm your appointment time.</p>
+            
+            <div class="flex gap-4">
+                <a href="/" class="flex-1 bg-[#1E3A2F] text-white py-3 rounded-xl font-semibold hover:bg-[#2B5A44] transition">Back to Home</a>
+                <a href="https://wa.me/9779769785094" class="flex-1 border-2 border-[#1E3A2F] text-[#1E3A2F] py-3 rounded-xl font-semibold hover:bg-[#1E3A2F]/5 transition">Contact on WhatsApp</a>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t">
+                <p class="text-sm text-gray-500">📞 Need help? Call: +977 976-9785094</p>
+                <p class="text-sm text-gray-500">✉️ Email: hamrophysio123@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

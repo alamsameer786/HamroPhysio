@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Partnership Request - HamroPhysio{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F5F3EF] py-12">
+    <div class="max-w-4xl mx-auto px-5">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+            <div class="bg-gradient-to-r from-[#1E3A2F] to-[#2B5A44] p-8 text-white text-center">
+                <h1 class="serif text-3xl md:text-4xl font-bold">Partner with HamroPhysio</h1>
+                <p class="mt-2 text-[#D4AF37]">Join us in providing better healthcare to the community</p>
+            </div>
+            
+            <div class="p-8 md:p-12">
+                <div class="mb-8">
+                    <p class="text-gray-600 text-center">Fill out the form below to express your interest in partnering with Dr. Imran Alam. We'll get back to you within 24 hours.</p>
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Organization Name *</label>
+                            {{ form.organization_name }}
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Partnership Type *</label>
+                            {{ form.partnership_type }}
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Contact Person *</label>
+                            {{ form.contact_person }}
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Email *</label>
+                            {{ form.email }}
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Phone Number *</label>
+                            {{ form.phone }}
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Address *</label>
+                            {{ form.address }}
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-[#1E3A2F] mb-2">Message / Requirements *</label>
+                            {{ form.message }}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-[#F0F4F0] p-6 rounded-xl">
+                        <h3 class="font-bold text-lg mb-3">Why Partner With Us?</h3>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li class="flex items-center gap-2">✓ <span>Refer patients for specialized physiotherapy care</span></li>
+                            <li class="flex items-center gap-2">✓ <span>Collaborative post-operative rehabilitation programs</span></li>
+                            <li class="flex items-center gap-2">✓ <span>Home visit services for your bedridden patients</span></li>
+                            <li class="flex items-center gap-2">✓ <span>Regular workshops and training sessions</span></li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="mt-6 w-full bg-[#D4AF37] text-[#1E3A2F] font-bold py-4 rounded-xl text-lg hover:bg-[#E5C758] transition">
+                        Submit Partnership Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
