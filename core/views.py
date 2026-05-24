@@ -314,31 +314,9 @@ def partnership_success(request, request_id):
     return render(request, 'partnership_success.html', {'partnership': partnership})
 
 def custom_404(request, exception):
-    """Custom 404 error page"""
     from django.http import HttpResponse
-    return HttpResponse("""
-    <!DOCTYPE html>
-    <html>
-    <head><title>Page Not Found - HamroPhysio</title></head>
-    <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1>404 - Page Not Found</h1>
-        <p>The page you're looking for doesn't exist.</p>
-        <a href="/">Go back to Home</a>
-    </body>
-    </html>
-    """, status=404)
+    return HttpResponse("Page not found", status=404)
 
 def custom_500(request):
-    """Custom 500 error page"""
     from django.http import HttpResponse
-    return HttpResponse("""
-    <!DOCTYPE html>
-    <html>
-    <head><title>Server Error - HamroPhysio</title></head>
-    <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-        <h1>500 - Server Error</h1>
-        <p>Something went wrong on our end. Please try again later.</p>
-        <a href="/">Go back to Home</a>
-    </body>
-    </html>
-    """, status=500)
+    return HttpResponse("Server error", status=500)
