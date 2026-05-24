@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-key-for-hamrophysio-2025'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['hamrophysio.onrender.com', 'localhost', '127.0.0.1']
 
