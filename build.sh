@@ -1,21 +1,26 @@
 #!/bin/bash
 
-echo "🚀 Starting build process..."
+echo "Starting build..."
 
-# Install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "📁 Creating directories..."
+# Create directories
 mkdir -p staticfiles
 mkdir -p static/images
-mkdir -p core/templates
+mkdir -p media
 
-echo "🗄️ Running migrations..."
+# Copy images to static folder if they exist elsewhere
+if [ -d "static/images" ]; then
+    echo "✅ Images found in static/images/"
+    ls -la static/images/
+fi
+
+# Run migrations
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
-echo "🎨 Collecting static files..."
-python manage.py collectstatic --noinput
+# Collect static files (this copies images to staticfiles)
+python manage.py collectstatic --noinput --verbosity 2
 
-echo "✅ Build completed successfully!"
+echo "Build complete!"
