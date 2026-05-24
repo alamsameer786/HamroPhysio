@@ -1,25 +1,21 @@
 #!/bin/bash
 
-# Exit on error
-set -o errexit
-
-# Upgrade pip
-pip install --upgrade pip
+echo "🚀 Starting build process..."
 
 # Install dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Create necessary directories
+echo "📁 Creating directories..."
 mkdir -p staticfiles
 mkdir -p static/images
-mkdir -p media
+mkdir -p core/templates
 
-# Run migrations
-python manage.py migrate --settings=hamrophysio.settings.production
+echo "🗄️ Running migrations..."
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
 
-# Collect static files - THIS IS CRITICAL FOR IMAGES
-python manage.py collectstatic --noinput --settings=hamrophysio.settings.production
+echo "🎨 Collecting static files..."
+python manage.py collectstatic --noinput
 
-# Verify static files were collected
-ls -la staticfiles/
-ls -la static/
+echo "✅ Build completed successfully!"
